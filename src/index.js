@@ -31,7 +31,7 @@ const Pomodoro = (props) => {
   const [timeLeft, setTimeLeft] = useState(pomodoroTime)
   const [isActive, setIsActive] = useState(false) 
   document.title = formattingTime(timeLeft) + " - Time to work!"
-  document.getElementById("favicon").href = "/pomodoro.ico"
+  document.getElementById("favicon").href = "./pomodoro.ico"
 
   useEffect(() => {
     if (isActive) {
@@ -88,7 +88,7 @@ const Pomodoro = (props) => {
             setDisplay(false)
           }
         }}>
-          <img id="imgButton" src="/restart.png"></img>
+          <img id="imgButton" src="./restart.png"></img>
         </button>
       </div>
       <p>Time to work!</p>
@@ -100,7 +100,7 @@ const ShortBreak = (props) => {
   const [timeLeft, setTimeLeft] = useState(shortBreakTime)
   const [isActive, setIsActive] = useState(false) 
   document.title = formattingTime(timeLeft) + " - Time for a break!"
-  document.getElementById("favicon").href = "/shortBreak.ico"
+  document.getElementById("favicon").href = "./shortBreak.ico"
 
   useEffect(() => {
     if (isActive) {
@@ -157,7 +157,7 @@ const ShortBreak = (props) => {
             props.setState("pomodoro")
           }
         }}>
-          <img id="imgButton" src="/restart.png"></img>
+          <img id="imgButton" src="./restart.png"></img>
         </button>
       </div>
       <p>Time for a break!</p>
@@ -169,7 +169,7 @@ const LongBreak = (props) => {
   const [timeLeft, setTimeLeft] = useState(longBreakTime)
   const [isActive, setIsActive] = useState(false) 
   document.title = formattingTime(timeLeft) + " - Time for a break!"
-  document.getElementById("favicon").href = "/longBreak.ico"
+  document.getElementById("favicon").href = "./longBreak.ico"
 
   useEffect(() => {
     if (isActive) {
@@ -226,7 +226,7 @@ const LongBreak = (props) => {
             props.setState("pomodoro")
           }
         }}>
-          <img id="imgButton" src="/restart.png"></img>
+          <img id="imgButton" src="./restart.png"></img>
         </button>
       </div>
       <p>Time for a break!</p>
