@@ -1,10 +1,13 @@
-@import url('http://fonts.cdnfonts.com/css/games');
-
+@font-face {
+	font-family: 'Games';
+	src: local("Games"),
+	  url("./fonts/Games.ttf") format("truetype");
+	font-weight: normal;
+  }
 body {
 	font-family: 'Games', sans-serif;
 	margin: 20px;
 }
-
 ol, ul {
 	padding-left: 30px;
 }
