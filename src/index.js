@@ -1,249 +1,249 @@
-import React, { useState, useEffect } from "react"
-import reactDom from "react-dom"
-import "./styles.css"
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import './styles.css';
 
-let pomodoroTime = 25*60
-let shortBreakTime = 6*60
-let longBreakTime = 10*60
+const blueBar = process.env.PUBLIC_URL + "/assets/barra.png"
+const favicon = process.env.PUBLIC_URL + "/assets/favicon.ico"
+const logo = process.env.PUBLIC_URL + "/assets/logo.jpg"
+const imgX = process.env.PUBLIC_URL + "/assets/x.png"
+const imgO = process.env.PUBLIC_URL + "/assets/o.png"
+const restart = process.env.PUBLIC_URL + "/assets/restart.png"
 
-const App = () => {
-  const [state, setState] = useState("pomodoro")
+const Square = ({ xIsNext, modifyXIsnext, index, changeList, winner, list }) => {
 
-  switch(state) {
-    case "pomodoro":
-      return <Pomodoro 
-        setState={setState}
-      />
+    const [ value, setValue ] = useState(null);
+    useEffect(
+        () => {
+            if (list.every((element) => element === null)) {
+                setValue(null);
+            }
+        },
+        [ list, value ]
+    );
 
-    case "shortBreak":
-      return <ShortBreak 
-        setState={setState}
-      />
-    
-    case "longBreak":
-      return <LongBreak 
-        setState={setState}
-      />
-  }
-}
+    const cambiaGiocatore = () => {
+        //controllo che la casella non sia già stata cliccata
+        if (!value && !winner) {
+            setValue(xIsNext ? 'X' : 'O');
+            changeList(index - 1, xIsNext ? 'X' : 'O');
+            //cambio il valore di xIsNext
+            modifyXIsnext();
+        }
+    };
+    return (
+        <zoomIn><button className="square" onClick={cambiaGiocatore}>
+            {
+            value === "X" ? 
+              <zoomIn><img className="movesGrid" src={imgX}></img></zoomIn>: 
+              value === "O" ? 
+                <img className="movesGrid" src={imgO}></img>: 
+                value
+            }
+        </button></zoomIn>
+    );
+};
+let listaRisultati = [];
+const Board = () => {
+    const [ xIsNext, setxIsNext ] = useState(true);
+    const [ squares, setSquares ] = useState(Array(9).fill(null));
 
-const Pomodoro = (props) => {
-  const [timeLeft, setTimeLeft] = useState(pomodoroTime)
-  const [isActive, setIsActive] = useState(false) 
-  document.title = formattingTime(timeLeft) + " - Time to work!"
-  document.getElementById("favicon").href = "./pomodoro.ico"
-
-  useEffect(() => {
-    if (isActive) {
-      if (!timeLeft) {
-        props.setState("shortBreak")
-        return
-      }
-
-      const intervalId = setInterval(() => {
-        setTimeLeft(timeLeft - 1)
-      }, 1000)
-      return () => clearInterval(intervalId)
-
+    const handlePlayerChange = () => {
+        setxIsNext(!xIsNext);
+    };
+    const handleListChange = (index, val) => {
+        if (!winner) {
+            setSquares(
+                squares.map((e, i) => {
+                    if (index === i) {
+                        e = val;
+                    }
+                    return e;
+                })
+            );
+        }
+    };
+    const ricomincia = () => {
+        setSquares(Array(9).fill(null));
+        setxIsNext(true);
+    };
+    let status;
+    const winner = calculateWinner(squares);
+    if (winner && winner !== true) {
+        status = <div>Vincitore: {winner === "X" ? <img className="moves" src={imgX}></img> : <img className="moves" src={imgO}></img>}</div>;
+        if (winner === 'X') {
+            listaRisultati.push(0);
+        } else {
+            listaRisultati.push(1);
+        }
+    } else if (winner === null) {
+        status = <div>Prossimo giocatore: {xIsNext ? <img className="moves" src={imgX}></img> : <img className="moves" src={imgO}></img>}</div>;
     } else {
-      setTimeLeft(pomodoroTime)
+        status = <div style={{marginTop:"28px"}}>Nessun giocatore ha vinto </div>;
+        listaRisultati.push(3);
     }
-  })
-  const [display, setDisplay] = useState(false)
-
-  return (
-    <div id="container"> 
-      <div>
-        <button id="pomodoro" class="target">Pomodoro</button>
-        <button id="sBreak" onClick={() => {
-          if (isActive) {
-            if (window.confirm("Sei sicuro di voler cambiare mentre il timer è ancora in funzione?")) {
-              props.setState("shortBreak")
-            }
-          } else {
-            props.setState("shortBreak")
-          }
-        }}>Short Break</button>
-        <button id="lBreak" onClick={() => {
-          if (isActive) {
-            if (window.confirm("Sei sicuro di voler cambiare mentre il timer è ancora in funzione?")) {
-              props.setState("longBreak")
-            }
-          } else {
-            props.setState("longBreak")
-          }
-        }}>Long Break</button>
-      </div>
-
-      <div id="timer">{formattingTime(timeLeft)}</div>
-
-      <div id="buttons">
-        <button id="start" onClick={() => {
-          setIsActive(true)
-          setDisplay(true)
-        }}>START</button>
-        <button id="restart" style={{display: display ? "inline" : "none"}} onClick={() => {
-          if (window.confirm("Sei sicuro di voler fermare il timer?")) {
-            setIsActive(false)
-            setDisplay(false)
-          }
-        }}>
-          <img id="imgButton" src="./restart.png"></img>
-        </button>
-      </div>
-      <p>Time to work!</p>
-    </div>
-  )
-}
-
-const ShortBreak = (props) => {
-  const [timeLeft, setTimeLeft] = useState(shortBreakTime)
-  const [isActive, setIsActive] = useState(false) 
-  document.title = formattingTime(timeLeft) + " - Time for a break!"
-  document.getElementById("favicon").href = "./shortBreak.ico"
-
-  useEffect(() => {
-    if (isActive) {
-      if (!timeLeft) {
-        props.setState("pomodoro")
-        return
-      }
-
-      const intervalId = setInterval(() => {
-        setTimeLeft(timeLeft - 1)
-      }, 1000)
-      return () => clearInterval(intervalId)
-
-    } else {
-      setTimeLeft(shortBreakTime)
+    for (let i = 0; i < 9; i++) {
+        <div>
+            <Square
+                xIsNext={xIsNext}
+                modifyXIsnext={handlePlayerChange}
+                index={i}
+                changeList={handleListChange}
+                winner={winner}
+                list={squares}
+            />
+        </div>;
     }
-  })
-  const [display, setDisplay] = useState(false)
-
-  return (
-    <div id="container"> 
-      <div>
-        <button id="pomodoro" onClick={() => {
-          if (isActive) {
-            if (window.confirm("Sei sicuro di voler cambiare mentre il timer è ancora in funzione?")) {
-              props.setState("pomodoro")
+    return (
+        <div>
+            <div className="status">
+              {status}
+            </div>
+            <img src={blueBar} className="blueBar"></img>
+            <div id="grid">
+            <div className="board-row">
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={1}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={2}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={3}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+            </div>
+            <div className="board-row">
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={4}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={5}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={6}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+            </div>
+            <div className="board-row">
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={7}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={8}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+                <Square
+                    xIsNext={xIsNext}
+                    modifyXIsnext={handlePlayerChange}
+                    index={9}
+                    changeList={handleListChange}
+                    winner={winner}
+                    list={squares}
+                />
+            </div>
+            </div>
+            <img src={blueBar} className="blueBar"></img>
+            <div id="restart-container">
+              <button id="restart-button" onClick={() => ricomincia()}>
+                  <img id="restart" src={restart}></img>
+              </button>
+            </div>
+            
+            {listaRisultati.length > 0 ?
+              <div className="lista-risultati">
+                <h2>Storico partite:</h2>
+                {
+                listaRisultati.map((e, i) => {
+                    if (e === 0) {
+                        return <p>{i + 1}. Il giocatore X ha vinto</p>;
+                    } else if (e === 1) {
+                        return <p> {i + 1}. Il giocatore O ha vinto</p>;
+                    } else {
+                        return <p> {i + 1}. Nessuno ha vinto</p>;
+                    }
+                })
+                }
+              </div> : null
             }
-          } else {
-            props.setState("pomodoro")
-          }
-        }}>Pomodoro</button>
-        <button id="sBreak" class="target">Short Break</button>
-        <button id="lBreak" onClick={() => {
-          if (isActive) {
-            if (window.confirm("Sei sicuro di voler cambiare mentre il timer è ancora in funzione?")) {
-              props.setState("longBreak")
-            }
-          } else {
-            props.setState("longBreak")
-          }
-        }}>Long Break</button>
-      </div>
-
-      <div id="timer">{formattingTime(timeLeft)}</div>
-
-      <div id="buttons">
-        <button id="start" onClick={() => {
-          setIsActive(true)
-          setDisplay(true)
-        }}>START</button>
-        <button id="restart" style={{display: display ? "inline" : "none"}} onClick={() => {
-          if (window.confirm("Sei sicuro di voler fermare il timer?")) {
-            setIsActive(false)
-            props.setState("pomodoro")
-          }
-        }}>
-          <img id="imgButton" src="./restart.png"></img>
-        </button>
-      </div>
-      <p>Time for a break!</p>
-    </div>
-  )
-}
-
-const LongBreak = (props) => {
-  const [timeLeft, setTimeLeft] = useState(longBreakTime)
-  const [isActive, setIsActive] = useState(false) 
-  document.title = formattingTime(timeLeft) + " - Time for a break!"
-  document.getElementById("favicon").href = "./longBreak.ico"
-
-  useEffect(() => {
-    if (isActive) {
-      if (!timeLeft) {
-        props.setState("pomodoro")
-        return
-      }
-
-      const intervalId = setInterval(() => {
-        setTimeLeft(timeLeft - 1)
-      }, 1000)
-      return () => clearInterval(intervalId)
-
-    } else {
-      setTimeLeft(longBreakTime)
+                
+        </div>
+    );
+};
+const Game = () => {
+    document.title = "Tris - by KMZ"
+    document.getElementById("favicon").href = favicon
+    return (
+        <div>
+            <div className="title">
+                <img src={logo} id="logo"></img>
+            </div>
+            <div className="game">
+                <div className="game-board">
+                    <Board />
+                </div>
+            </div>
+        </div>
+    );
+};
+// ========================================
+const calculateWinner = (squares) => {
+    const lines = [
+        [ 0, 1, 2 ],
+        [ 3, 4, 5 ],
+        [ 6, 7, 8 ],
+        [ 0, 3, 6 ],
+        [ 1, 4, 7 ],
+        [ 2, 5, 8 ],
+        [ 0, 4, 8 ],
+        [ 2, 4, 6 ]
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [ a, b, c ] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
     }
-  })
-  const [display, setDisplay] = useState(false)
+    if (squares.every((element) => element !== null)) {
+        return undefined;
+    }
+    return null;
+};
 
-  return (
-    <div id="container"> 
-      <div>
-        <button id="pomodoro" onClick={() => {
-          if (isActive) {
-            if (window.confirm("Sei sicuro di voler cambiare mentre il timer è ancora in funzione?")) {
-              props.setState("pomodoro")
-            }
-          } else {
-            props.setState("pomodoro")
-          }
-        }}>Pomodoro</button>
-        <button id="sBreak" onClick={() => {
-          if (isActive) {
-            if (window.confirm("Sei sicuro di voler cambiare mentre il timer è ancora in funzione?")) {
-              props.setState("shortBreak")
-            }
-          } else {
-            props.setState("shortBreak")
-          }
-        }}>Short Break</button>
-        <button id="lBreak" class="target">Long Break</button>
-      </div>
-
-      <div id="timer">{formattingTime(timeLeft)}</div>
-
-      <div id="buttons">
-        <button id="start" onClick={() => {
-          setIsActive(true)
-          setDisplay(true)
-        }}>START</button>
-        <button id="restart" style={{display: display ? "inline" : "none"}} onClick={() => {
-          if (window.confirm("Sei sicuro di voler fermare il timer?")) {
-            setIsActive(false)
-            props.setState("pomodoro")
-          }
-        }}>
-          <img id="imgButton" src="./restart.png"></img>
-        </button>
-      </div>
-      <p>Time for a break!</p>
-    </div>
-  )
-}
-
-const formattingTime = (timer) => {
-  let minutes = Math.floor(timer/60)
-  let seconds = timer - minutes * 60
-  
-  minutes = minutes < 10 ? `0${minutes}` : minutes
-  seconds = seconds < 10 ? `0${seconds}` : seconds
-  return `${minutes}:${seconds}`
-}
-
-reactDom.render(
-  <App />,
-  document.getElementById("container")
-)
+ReactDOM.render(<Game />, document.getElementById('root'));

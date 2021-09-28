@@ -1,55 +1,122 @@
-*{
-	box-sizing: border-box;
-	margin:0;
+@import url('http://fonts.cdnfonts.com/css/games');
+
+body {
+	font-family: 'Games', sans-serif;
+	margin: 20px;
+}
+
+ol, ul {
+	padding-left: 30px;
+}
+.board-row {
+	margin: auto;
+	width: 300px;
+}
+.board-row:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+.status {
+	margin-top: 20px;
+	font-family: 'Games', sans-serif;
+	text-align: center;
+	font-size: 40px;
+	color: rgb(0, 153, 255);
+}
+
+.square {
+	background: rgb(0, 204, 255);
+	border: 3px solid rgb(255, 255, 255);
+	float: left;
+	font-size: 50px;
+	font-weight: bold;
+	line-height: 34px;
+	height: 100px;
+	margin-right: -1px;
+	margin-top: -1px;
 	padding: 0;
-}
-body{
-	background-color:#222;
-	color:white;
-}
-p{
-	font-size: 30px;
-	margin-top: 30px;
-}
-h1{
-	margin-top: 60px;
 	text-align: center;
-	font-size: 60px;
+	width: 100px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
 }
-#timer{
-	font-size:100px;
-	margin-bottom: 20px;
-	padding-top: 20px;
+
+.square:hover {
+	background: rgb(0, 174, 255);
+	outline: none;
 }
-#container{
-	text-align: center;
-	margin-top: 5%;
+
+.kbd-navigation .square:focus {
+	background: #ddd;
 }
-#imgButton{
-	height: 20px;
-	width: 20px;
+
+.game {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }
-button{
-	background-color: #EE3769;
-	font-size:22px;
-	color:white;
-	padding:20px;
-	margin:0 5px;
-	border-radius: 3px;
+
+.lista-risultati h2{
+	font-size: 25px;
+	color: rgb(0, 153, 255)
+}
+.lista-risultati p{
+	font-size: 20px;
+	color: rgb(0, 204, 255)
+}
+.moves {
+	width: 42px;
+}
+.movesGrid {
+	width: 70px;
+	animation: zoomInOut 0.4s;
+}
+#logo {
+	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	width: 150px;
+}
+.blueBar {
+	display: block;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+}
+#grid {
+	margin-bottom: 10px;
+}
+#restart-container {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+#restart-button {
+	padding: 0;
 	border: none;
-    outline:none;
-    box-shadow: 0 5px #666;
-	transition-property: background,transform,box-shadow;
-    transition-duration: .1s;
-    transition-timing-function: linear;
+	background: none}
+#restart {
+	width: 80px;
 }
-button:active {
-	background-color: #aa0335;
-	box-shadow: none;
-	transform: translateY(4px);
+#restart:active {
+	transform: scale(0.9,0.9);
 }
-.target{
-	background-color: #aa0335;
-	box-shadow: none;
-	transform: translateY(4px);
+#restart:hover {
+	opacity: 0.60;
+}
+@keyframes zoomInOut {
+    0% {
+        transform: scale(1,1);
+    }
+    50% {
+        transform: scale(1.2,1.2);
+    }
+    100% {
+        transform: scale(1,1);
+    }
 }
