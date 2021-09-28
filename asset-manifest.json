@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/Tris-React/static/css/main.6263dbc4.chunk.css",
+    "main.js": "/Tris-React/static/js/main.9a7b6fb1.chunk.js",
+    "main.js.map": "/Tris-React/static/js/main.9a7b6fb1.chunk.js.map",
+    "runtime-main.js": "/Tris-React/static/js/runtime-main.df9f7062.js",
+    "runtime-main.js.map": "/Tris-React/static/js/runtime-main.df9f7062.js.map",
+    "static/js/2.80e58b99.chunk.js": "/Tris-React/static/js/2.80e58b99.chunk.js",
+    "static/js/2.80e58b99.chunk.js.map": "/Tris-React/static/js/2.80e58b99.chunk.js.map",
+    "index.html": "/Tris-React/index.html",
+    "static/css/main.6263dbc4.chunk.css.map": "/Tris-React/static/css/main.6263dbc4.chunk.css.map",
+    "static/js/2.80e58b99.chunk.js.LICENSE.txt": "/Tris-React/static/js/2.80e58b99.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.df9f7062.js",
+    "static/js/2.80e58b99.chunk.js",
+    "static/css/main.6263dbc4.chunk.css",
+    "static/js/main.9a7b6fb1.chunk.js"
+  ]
+}
