@@ -6,6 +6,7 @@
   }
 body {
 	font-family: 'Games', sans-serif;
+	color: white;
 	margin: 20px;
 }
 ol, ul {
@@ -23,7 +24,6 @@ pre {
 	content: "";
 	display: table;
 }
-
 .status {
 	margin-top: 20px;
 	font-family: 'Games', sans-serif;
