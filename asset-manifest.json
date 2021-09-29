@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Tris-React/static/css/main.409827d1.chunk.css",
+    "main.css": "/Tris-React/static/css/main.fefe9ca3.chunk.css",
     "main.js": "/Tris-React/static/js/main.9a7b6fb1.chunk.js",
     "main.js.map": "/Tris-React/static/js/main.9a7b6fb1.chunk.js.map",
     "runtime-main.js": "/Tris-React/static/js/runtime-main.df9f7062.js",
@@ -8,14 +8,14 @@
     "static/js/2.80e58b99.chunk.js": "/Tris-React/static/js/2.80e58b99.chunk.js",
     "static/js/2.80e58b99.chunk.js.map": "/Tris-React/static/js/2.80e58b99.chunk.js.map",
     "index.html": "/Tris-React/index.html",
-    "static/css/main.409827d1.chunk.css.map": "/Tris-React/static/css/main.409827d1.chunk.css.map",
+    "static/css/main.fefe9ca3.chunk.css.map": "/Tris-React/static/css/main.fefe9ca3.chunk.css.map",
     "static/js/2.80e58b99.chunk.js.LICENSE.txt": "/Tris-React/static/js/2.80e58b99.chunk.js.LICENSE.txt",
     "static/media/styles.css": "/Tris-React/static/media/Games.3e58f8a2.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.df9f7062.js",
     "static/js/2.80e58b99.chunk.js",
-    "static/css/main.409827d1.chunk.css",
+    "static/css/main.fefe9ca3.chunk.css",
     "static/js/main.9a7b6fb1.chunk.js"
   ]
 }
