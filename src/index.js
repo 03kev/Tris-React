@@ -186,7 +186,8 @@ const Board = () => {
               </button>
             </div>
             
-            {listaRisultati.length > 0 ?
+            {
+            listaRisultati.length > 0 ?
               <div className="lista-risultati">
                 <h2>Storico partite:</h2>
                 {

@@ -11,6 +11,9 @@ body {
 ol, ul {
 	padding-left: 30px;
 }
+pre {
+	color: white;
+}
 .board-row {
 	margin: auto;
 	width: 300px;
